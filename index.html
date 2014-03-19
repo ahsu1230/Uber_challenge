@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<TITLE> SF Food Trucks </TITLE>
+	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:Condensed" />
+	<link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
+	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+	<script type="text/javascript" src="/javascripts/functions.js"></script>
+</HEAD>
+
+<BODY>
+<h1> SF Food Trucks</h1>
+<table>
+<tr>
+<td id="searchcell">
+<FORM id = "form1" action = "/" name="myform">Start Searching! <BR>
+	<div><input type="text" name="location" value="">Location</div>
+	<div><input type="text" name="maxdist" value=1>Maximum Distance (in miles)</div>
+	<div><input type="radio" name="open" id="now" value="Open Now" checked>Open Now</div>
+	<div><input type="radio" name="open" id="anytime" value="Anytime">Anytime</div>
+	<div><input type="text" name="food" value=""> Type of Food (split by commas)</div>
+	
+	<div>
+		<!-- Submits query info -->
+		<input id="query" type="submit" name="query" value="Ok, I'm hungry!">
+		<!-- Picks a random location nearby (within max distance and currently open) (ignores other query info) -->
+		<!--<input id="lucky" type="submit" name="lucky" value="Damn It, I'm feeling lucky!">-->
+	</div>
+</FORM>
+<script>
+	<!-- On form1.Submit, store variables for POST request -->
+	$("#form1").submit(function(event) {
+		
+		//alert("OnSubmit! " + event.target);
+		event.preventDefault();
+		var $form = $( this );
+		var loc = $form.find( "input[name='location']" ).val();
+		if (loc == "") {
+			alert("Please enter in your location!");
+			return;
+		}
+		var dist = $form.find( "input[name='maxdist']" ).val();
+		if (isNaN(dist)) {
+			alert("Distance needs to be a number!");
+			return;
+		}
+		var food = $form.find( "input[name='food']" ).val();
+		//var open = $form.find( "input[name='open']" ).val();
+		var open;
+		if (document.getElementById('now').checked) {
+			var d = new Date();
+			open = String(d.getHours());
+			open = "anytime"	// don't have schedule of all trucks yet, so assume anytime
+		} else {
+			open = "anytime"
+		}
+		var url = $form.attr( "action" );
+		var posting = $.post( url, { 	location: loc,
+							maxdist: dist,
+							open: open,
+							food: food
+						} );
+		<!-- After POST request, generate Table Data -->
+		posting.done(function( data ) {
+			//alert("After Post: {" + data + "}");
+			generateTable(data);
+		});
+		<!-- After generate Table, generate Map -->
+	});
+	
+</script>
+</td>
+
+ <!-- Display Truck Locations on the Map! -->
+ <td id="mapcell" width="50%">
+<h2> Map </h2>
+<div id="map_canvas"></div>
+</td>
+</tr>
+</table>
+
+<h2> Search Results </h2>
+<p id="num_results"></p>
+<div class="table_header">
+	<table>
+		<col class = "col0" />
+		<col class = "col1" />
+		<col class = "col2" />
+		<col class = "col3" />
+		<col class = "col4" />
+		<col class = "col5" />
+		<col class = "col6" />
+		<col class = "col7" />
+		<tr>
+		<td><u><b>Name</b></u></td>
+		<td><u><b>Distance</b></u></td>
+		<td><u><b>Address</b></u></td>
+		<td><u><b>Location Description</b></u></td>
+		<td><u><b>Times Open</b></u></td>
+		<td><u><b>Type</b></u></td>	<!-- Truck or Push Cart? -->
+		<td><u><b>Food Items</b></u></td>
+		<td><u><b>Coordinates</b></u></td>
+		</tr>
+	</table>
+</div>
+<div class="table_body">
+	<table id="ResultsTable">
+		<col class = "col0" />
+		<col class = "col1" />
+		<col class = "col2" />
+		<col class = "col3" />
+		<col class = "col4" />
+		<col class = "col5" />
+		<col class = "col6" />
+		<col class = "col7" />
+		<!-- Dynamic Rows of Trucks Info & Stuff -->
+		<div id="dynamicResults"></div>
+	</table>
+</div>
+
+</BODY>
+</HMTL>
