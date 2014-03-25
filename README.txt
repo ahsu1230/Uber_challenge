@@ -45,7 +45,7 @@ Algorithm (General Overview):
 		between the current location coordinate and those of all trucks
 	- Since there are only 600 trucks, brute-force calculation is fast and simple
 	- Place all nearby trucks into a Priority Queue to heap sort the nearest Trucks
-	- Disregard trucks if they are "not open" or don't have the specified food requests
+	- Disregard trucks if "not open" or don't have the specified food requests
 	- Time: roughly O(nlogn) Space: O(n)
     Step 5: Display list of nearby trucks back to user
 
@@ -62,22 +62,26 @@ Assumptions:
 Trade-offs & Future Work:	
     - Because Google Map API functions can take a while (especially for many requests), 
 	and we want to use those functions as least as possible.
-	So distance is calculated through Pythagoras distances between decimal degree coordinates.
+	So distance is calculated through Pythagoras distances 
+	between decimal degree coordinates.
 
     - Look into better scaling optimizations 
 	- (if we had much more trucks, would I still be able to re-use this code?)
 	- If list of trucks were much more, we could use an actual Graph
 	- Prepare a graph such that vertices & truck nodes lay in a grid-like fashion 
 	  and perform Dijkstra's shortest path algorithm on vertices
-		until the distance is greater than the max-distance or we've searched all nodes 
-		(the latter is not likely to happen since there will be lots of vertices and 
+		until the distance is greater than the max-distance or searched all nodes 
+		(the latter is not likely to happen since there are lots of vertices and 
 		reaching the maximum distance will probably happen first)
-	- for only 600-ish trucks, creating this Graph with so many vertices does not seem worth it =(
+	- for only 600-ish trucks, creating this Graph with so many vertices 
+		does not seem worth it =(
 
     - Have a better open-times system. 
-	I left out scheduling because the truck schedules were in pdf format. Otherwise, it would
-  	be difficult to parse pdf, because the times & locations are by layout (not content).
-	As of right now, only loose scheduling tests, but not really applied to the main program
+	I left out scheduling because the truck schedules were in pdf format. 
+	Otherwise, it would be difficult to parse pdf, 
+	because the times & locations are by layout (not content).
+	As of right now, only loose scheduling tests, 
+	but not really applied to the main program
 
 	My original method would be to implement a range tree (based on Day & Hours). 
 	It would take about linear space and O(logn) time to find 
