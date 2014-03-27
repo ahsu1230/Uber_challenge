@@ -60,9 +60,9 @@ elementList.append(["6", addressList[5][0], "citycode", addressList[5][1], "",  
 TruckList = G.InitializeGraph(elementList)
 
 	
-# TESTS BEGIN! ########################################
+# ########## TESTS BEGIN! #######################################
 	
-# Test size of list
+# ########## Test size of list ######################################
 MAX_DIST = 5 		# in miles
 MyTest("Length of TruckList", len(TruckList), 6)
 
@@ -75,10 +75,10 @@ NearbyList = G.CalcNearbyTrucks(5.0, myLat, myLng, "deg", "", "anytime")
 for tuple in NearbyList:
 	print "\t", tuple[0].name, tuple[1]
 
-# Test if NearbyTrucks is correct
+# ########## Test if NearbyTrucks is correct ################################
 MyTest("Length of NearbyList", len(NearbyList), 4)
 	
-# Test if PQ ascends from minimum value to greater values
+# ########## Test if PQ ascends from minimum value to greater values ###############
 minDist = (NearbyList[0])[1]
 priority = True
 for i in range(1, len(NearbyList)):
@@ -89,7 +89,7 @@ for i in range(1, len(NearbyList)):
 		minDist = NearbyList[i][1]
 MyTest("Ascending PQ", priority, True)
 
-# Test if PQ contains distances less than MAX_DIST
+# ########## Test if PQ contains distances less than MAX_DIST ###################
 valid = True
 for tuple in NearbyList:
 	distance = tuple[1]
@@ -98,11 +98,11 @@ for tuple in NearbyList:
 		break
 MyTest("Within Max Distance", valid, True)
 
-# Test if PQ could contain ALL nodes
+# ########## Test if PQ could contain ALL nodes #############################
 NearbyList = G.CalcNearbyTrucks(100.0, myLat, myLng, "deg", "", "anytime")
 MyTest("All Nodes", len(NearbyList), 6)
 
-# Test if "chicken" is in all nearby trucks
+# ########## Test if "chicken" is in all nearby trucks
 NearbyList = G.CalcNearbyTrucks(5.0, myLat, myLng, "deg", "chicken", "anytime")
 valid = True
 for tuple in NearbyList:
@@ -111,7 +111,7 @@ for tuple in NearbyList:
 		valid = False
 		break
 MyTest("Correct Foods A", valid, True)
-# Test if "beef" is in all nearby trucks
+# ########## Test if "beef" is in all nearby trucks #############################
 NearbyList = G.CalcNearbyTrucks(5.0, myLat, myLng, "deg", "beef", "anytime")
 valid = True
 for tuple in NearbyList:
@@ -121,7 +121,7 @@ for tuple in NearbyList:
 		break
 MyTest("Correct Foods B", valid, True)
 
-# Test if time @ 10 hours is correct
+# ########## Test if time @ 10 hours is correct ##############################
 NearbyList = G.CalcNearbyTrucks(5.0, myLat, myLng, "deg", "", 10)
 valid = True
 for tuple in NearbyList:
@@ -133,7 +133,7 @@ for tuple in NearbyList:
 		break
 MyTest("Correct Times A", valid, True)
 
-# Test if time @ 18 hours is correct
+# ########## Test if time @ 18 hours is correct ##############################
 NearbyList = G.CalcNearbyTrucks(5.0, myLat, myLng, "deg", "", 18)
 valid = True
 for tuple in NearbyList:
@@ -145,7 +145,7 @@ for tuple in NearbyList:
 		break
 MyTest("Correct Times B", valid, True)
 
-# Test if both type of foods AND time were tested correctly
+# ########## Test if both type of foods AND time were tested correctly ##############
 NearbyList = G.CalcNearbyTrucks(5.0, myLat, myLng, "deg", "chicken", 12)
 
 

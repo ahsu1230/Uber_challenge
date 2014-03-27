@@ -53,10 +53,10 @@ numNoCoords = 0
 for t in tagLists:
 	if t[3] == "":
 		numNoAddresses += 1
-		print c, "No Address", t
+		print c, "No Address", t			# Display which trucks don't have a specified address
 	if t[6] == "" or t[7] == "":
 		numNoCoords += 1
-		print c, "No Coordinate"
+		print c, "No Coordinate"		# Display which trucks don't have specified coordinates
 	c += 1
 print (numNoAddresses, numNoCoords)
 
