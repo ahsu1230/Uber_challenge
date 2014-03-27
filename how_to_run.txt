@@ -1,0 +1,6 @@
+1) Make sure there is main.py & app.yaml
+2) on Command Prompt, run dev_appserver.py ________
+	- this hosts the web server on the local host
+3) on Command Prompt, run appcfg.py --email=ahsu1230@gmail.com update ________
+	- this updates the application
+4) refresh http://uberchallengeahsu1230.appspot.com/ to see the changes!
